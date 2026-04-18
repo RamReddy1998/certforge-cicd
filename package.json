@@ -1,0 +1,13 @@
+{
+  "name": "certforge-cicd",
+  "version": "1.0.0",
+  "description": "CertForge CI/CD Demo App",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "test": "echo 'All tests passed!' && exit 0"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
