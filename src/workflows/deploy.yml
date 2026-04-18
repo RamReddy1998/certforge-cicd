@@ -1,0 +1,33 @@
+name: Deploy Cloud Function
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Authenticate to GCP (Workload Identity)
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: "projects/1066540375711/locations/global/workloadIdentityPools/github-pool/providers/github-provider"
+          service_account: "github-deployer@project-33e4c1c6-0f60-419f-92c.iam.gserviceaccount.com"
+
+      - name: Setup gcloud
+        uses: google-github-actions/setup-gcloud@v2
+
+      - name: Deploy Function
+        run: |
+          gcloud functions deploy hello-function \
+            --gen2 \
+            --runtime=nodejs18 \
+            --region=us-central1 \
+            --source=. \
+            --entry-point=helloWorld \
+            --trigger-http \
+            --allow-unauthenticated
